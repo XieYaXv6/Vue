@@ -13,10 +13,18 @@
         label-width="0px"
         class="from"
       >
-        <el-form-item prop="username">
+      <el-form-item prop="username">
           <el-input
             placeholder="请输入用户名"
             v-model="registform.username"
+            prefix-icon="el-icon-user"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item prop="uname">
+          <el-input
+            placeholder="请输入账户"
+            v-model="registform.uname"
             prefix-icon="el-icon-user"
           ></el-input>
         </el-form-item>
@@ -106,84 +114,85 @@ export default {
         password2: "",
         paypass: "",
         paypass2: "",
-
+        uname:""
       },
-      formrules: {
-        username: [
-          { required: true, message: "请输入用户名称", trigger: "blur" },
-          {
-            min: 3,
-            max: 10,
-            message: "长度在 3 到 10 个字符",
-            trigger: "blur",
-          },
-        ],
-        password: [
-          { required: true, message: "请输入登录密码", trigger: "blur" },
-          {
-            min: 6,
-            max: 15,
-            message: "长度在 6 到 15 个字符",
-            trigger: "blur",
-          },
-        ],
-        password2: [
-          { required: true, message: "请再次输入登录密码", trigger: "blur" },
-          {
-            min: 6,
-            max: 15,
-            message: "长度在 6 到 15 个字符",
-            trigger: "blur",
-          },
-          { required: true, validator: validatePass, trigger: 'blur' }
-        ],
-        paypass: [
-          { required: true, message: "请输入支付密码", trigger: "blur" },
-          {
-            min: 6,
-            max: 15,
-            message: "长度在 6 到 15 个字符",
-            trigger: "blur",
-          },
-        ],
-        paypass2: [
-          { required: true, message: "请再次输入支付密码", trigger: "blur" },
-          {
-            min: 6,
-            max: 15,
-            message: "长度在 6 到 15 个字符",
-            trigger: "blur",
-          },
-          { required: true, validator: validatepayPass, trigger: 'blur' }
-        ],
-      },
+       formrules: {
+      //   username: [
+      //     { required: true, message: "请输入用户名称", trigger: "blur" },
+      //     {
+      //       min: 3,
+      //       max: 10,
+      //       message: "长度在 3 到 10 个字符",
+      //       trigger: "blur",
+      //     },
+      //   ],
+      //   password: [
+      //     { required: true, message: "请输入登录密码", trigger: "blur" },
+      //     {
+      //       min: 6,
+      //       max: 15,
+      //       message: "长度在 6 到 15 个字符",
+      //       trigger: "blur",
+      //     },
+      //   ],
+      //   password2: [
+      //     { required: true, message: "请再次输入登录密码", trigger: "blur" },
+      //     {
+      //       min: 6,
+      //       max: 15,
+      //       message: "长度在 6 到 15 个字符",
+      //       trigger: "blur",
+      //     },
+      //     { required: true, validator: validatePass, trigger: 'blur' }
+      //   ],
+      //   paypass: [
+      //     { required: true, message: "请输入支付密码", trigger: "blur" },
+      //     {
+      //       min: 6,
+      //       max: 15,
+      //       message: "长度在 6 到 15 个字符",
+      //       trigger: "blur",
+      //     },
+      //   ],
+      //   paypass2: [
+      //     { required: true, message: "请再次输入支付密码", trigger: "blur" },
+      //     {
+      //       min: 6,
+      //       max: 15,
+      //       message: "长度在 6 到 15 个字符",
+      //       trigger: "blur",
+      //     },
+      //     { required: true, validator: validatepayPass, trigger: 'blur' }
+      //   ],
+       },
     };
   },
   methods: {
     resetloginform() {
       //重置表单
       //console.log(this)
-      this.$refs.loginformref.resetFields();
+      this.$refs.registformref.resetFields();
     },
 
     regist() {
-      this.$router.push("/login")
+      //this.$router.push("/login")
       //     //表单验证
-      //     this.$refs.loginformref.validate(async valid=>{
-      //         //console.log(valid)
-      //         if(!valid) return;
-      //         //调用接口注册
-      //         const result=await this.$http.post('login',this.loginform);
-      //         //console.log(result);
-      //         if(result.data.meta.status!==200) {
-      //             return this.$message.error("登录失败!")
-      //         }else{
-      //             this.$message.success("登录成功!")
-      //             window.sessionStorage.setItem("token",result.data.data.token)
-      //             this.$router.push('/home')
-      //             //console.log(result)
-      //         }
-      //     })
+          this.$refs.registformref.validate(async valid=>{
+              //console.log(valid)
+              if(!valid) return;
+              //调用接口注册
+              console.log(this.registform)
+              const result=await this.$http.get("/l/r?user="+this.registform.username+"&password="+this.registform.password+"&payword="+this.registform.paypass+"&uname="+this.registform.uname);
+              console.log(result);
+              if(result.data==0) {
+                  return this.$message.error("注册失败!")
+              }else{
+                  this.$message.success("注册成功!")
+                  //window.sessionStorage.setItem("token",result.data.data.token)
+                  this.$router.push('/login')
+                  //console.log(result)
+              }
+          })
     },
   },
 };

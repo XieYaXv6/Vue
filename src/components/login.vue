@@ -50,18 +50,18 @@ export default {
         username: [
           { required: true, message: "请输入用户名称", trigger: "blur" },
           {
-            min: 3,
+            min: 1,
             max: 10,
-            message: "长度在 3 到 10 个字符",
+            message: "长度在 1 到 10 个字符",
             trigger: "blur",
           },
         ],
         password: [
           { required: true, message: "请输入登录密码", trigger: "blur" },
           {
-            min: 6,
+            min: 1,
             max: 15,
-            message: "长度在 6 到 15 个字符",
+            message: "长度在 1 到 15 个字符",
             trigger: "blur",
           },
         ],
@@ -75,26 +75,26 @@ export default {
       this.$refs.loginformref.resetFields();
     },
     login() {
-      this.$router.push("/home");
-      return this.$message.success("登陆成功！");
+      
       //表单验证
-      // this.$refs.loginformref.validate(async valid=>{
-      //     //console.log(valid)
-      //     if(!valid) return;
+      this.$refs.loginformref.validate(async valid=>{
+          //console.log(valid)
+          if(!valid) return;
+          //console.log(this.loginform)
+          //调用接口注册
+          const result=await this.$http.get('login?user='+this.loginform.username+'&password='+this.loginform.password);
+          console.log(result);
+          if(result.data==0) {
+              return this.$message.error("登录失败!")
+          }else{
+              this.$message.success("登录成功!")
+              this.$router.push("/home");
+             // window.sessionStorage.setItem("token",result.data.data.token)
 
-      //     //调用接口注册
-      //     const result=await this.$http.post('login',this.loginform);
-      //     //console.log(result);
-      //     if(result.data.meta.status!==200) {
-      //         return this.$message.error("登录失败!")
-      //     }else{
-      //         this.$message.success("登录成功!")
-      //         window.sessionStorage.setItem("token",result.data.data.token)
+              //console.log(result)
+          }
 
-      //         //console.log(result)
-      //     }
-
-      // })
+      })
     },
     regist() {
       this.$router.push("/regist");
