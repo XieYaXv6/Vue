@@ -47,6 +47,9 @@ export default {
           { required: true, message: '金额不能为空',trigger: "blur"},
           { pattern: /^[1-9]\d*(\.\d+)?$/, message: '请输入有效的金额',trigger: 'blur'}, 
         ],
+         id:[
+           { required: true, message: '账户不能为空',trigger: "blur"},
+        ],
         name:[
            { required: true, message: '姓名不能为空',trigger: "blur"},
         ]

@@ -22,13 +22,13 @@
               icon="el-icon-edit"
               size="mini"
               @click="showeditdialog(scope.row.id)"
-            ></el-button>
+            >修改</el-button>
             <el-button
               type="danger"
               icon="el-icon-delete"
               size="mini"
               @click="removeuserbyid(scope.row.id)"
-            ></el-button>
+            >删除</el-button>
            
           </template>
         </el-table-column>
@@ -49,14 +49,18 @@
     <!-- 修改密码的对话框 
     prop是校验规则
     -->
-    <el-dialog title="修改用户" :visible.sync="editdialogVisible" width="50%" @close="editdialogclose">
+    <el-dialog title="修改密码" :visible.sync="editdialogVisible" width="50%" @close="editdialogclose">
       <el-form :model="editform" :rules="editformrules" ref="editformref" label-width="70px">
         <el-form-item label="账户">
           <el-input v-model="editform.user" disabled></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="原始密码" prop="password">
           <el-input v-model="editform.password"></el-input>
         </el-form-item>
+        <el-form-item label="新密码" prop="password">
+          <el-input v-model="editform.password"></el-input>
+        </el-form-item>
+        
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editdialogVisible = false">取 消</el-button>
@@ -103,9 +107,9 @@ export default {
   methods: {
     // 获取用户信息
     async getuserlist() {
-      const { data: res } = await this.$http.get("users", {
-        params: this.queryinfo,
-      });
+      // const { data: res } = await this.$http.get("users", {
+      //   params: this.queryinfo,
+      // });
       if (res.meta.status !== 200)
         return this.$message.error("获取用户列表失败！");
       this.userlist = res.data.users;
@@ -126,9 +130,9 @@ export default {
     // 修改用户状态
     async statechange(userinfo) {
       //console.log(userinfo);
-      const { data: res } = await this.$http.put(
-        `users/${userinfo.id}/state/${userinfo.mg_state}`
-      );
+      // const { data: res } = await this.$http.put(
+      //   `users/${userinfo.id}/state/${userinfo.mg_state}`
+      // );
       if (res.meta.status !== 200) {
         userinfo.mg_state = !userinfo.mg_state;
         return this.$message.error("更新用户状态失败！");
@@ -143,12 +147,12 @@ export default {
     //根据id查询用户
     async showeditdialog(id) {
       //console.log(id)
-      const { data: res } = await this.$http.get("users/" + id);
-      if (res.meta.status !== 200) {
-        return this.$message.error("查询用户信息失败！");
-      }
+      //const { data: res } = await this.$http.get("users/" + id);
+      // if (res.meta.status !== 200) {
+      //   return this.$message.error("查询用户信息失败！");
+      // }
 
-      this.editform = res.data;
+      //this.editform = res.data;
       this.editdialogVisible = true;
     },
     //关闭修改用户对话框
@@ -160,13 +164,13 @@ export default {
       //表单预校验
       this.$refs.editformref.validate(async (valid) => {
         if (!valid) return;
-        const { data: res } = await this.$http.put(
-          "users/" + this.editform.id,
-          {
-            email: this.editform.email,
-            mobile: this.editform.mobile,
-          }
-        );
+        // const { data: res } = await this.$http.put(
+        //   "users/" + this.editform.id,
+        //   {
+        //     email: this.editform.email,
+        //     mobile: this.editform.mobile,
+        //   }
+        // );
         if (res.meta.status !== 200)
           return this.$message.error("更新用户信息失败！");
 
@@ -193,7 +197,7 @@ export default {
         return this.$message.info("已取消删除");
       }
 
-      const { data: res } = await this.$http.delete("users/" + id);
+      //const { data: res } = await this.$http.delete("users/" + id);
 
       if (res.meta.status !== 200) {
         return this.$message.error("删除用户失败！");
