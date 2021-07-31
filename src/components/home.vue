@@ -2,7 +2,7 @@
   <el-container class="container">
     <!-- 头部 -->
     <el-header>
-      <div @click="tohome" class="wenzi">CZBANK转账系统</div>
+      <div @click="tohome" class="wenzi">TenBank</div>
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>
 
@@ -23,9 +23,7 @@
           :router="true"
           :default-active="activepath"
         >
-          <!-- <el-submenu v-for="(index,item) in $router.options.routes[3]" :index="index.path">
-                <el-menu-item v-for="(index2,item2) in item.children" :index="index2+'' ">{{item2.children}}</el-menu-item>
-          </el-submenu> -->
+         
           <el-menu-item 
            :index="item.path"
           v-for="item in $router.options.routes[3].children" 
@@ -33,9 +31,7 @@
            <i class="el-icon-document"></i>
               &nbsp;&nbsp;&nbsp;{{item.name}}
           </el-menu-item>
-<!--           
-          <el-menu-item><router-link to="zhuanzhang" style="text-decoraction:none">  <i class="el-icon-document"></i>转账</router-link></el-menu-item>
-          <el-menu-item><router-link to="find"><i class="el-icon-setting"></i>转账查询</router-link></el-menu-item> -->
+
         </el-menu>
       </el-aside>
 
@@ -49,6 +45,7 @@
 
 <script>
 export default {
+  
   data() {
     return {
       menulist: [],
@@ -65,6 +62,8 @@ export default {
   },
   created() {
     //this.getMenuList();
+    //console.log(this.)
+    console.log(window.sessionStorage.getItem('uid'))
     this.activepath = window.sessionStorage.getItem("activepath");
   },
   methods: {
@@ -73,15 +72,6 @@ export default {
       this.$router.push("/login");
     },
     
-    // async getMenuList() {
-    //   //获取侧边栏列表
-    //   // const { data: res } = await this.$http.get("menus");
-    //   // if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
-    //   //this.menulist = res.data;
-    //  console.log
-    //   console.log(this.$router.options.routes);
-    // },
-    //侧边栏收缩
     toggle() {
       this.iscollapse = !this.iscollapse;
     },
@@ -100,6 +90,7 @@ export default {
 
 <style lang="less" scoped>
 .wenzi{
+  margin-left: 40px;
   cursor: pointer;
 }
 .container {

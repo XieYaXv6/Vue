@@ -37,14 +37,14 @@ const router = new VueRouter({
 //     return next()
 //   }
 
-//   const tokenstr = window.sessionStorage.getItem('token')
-//   if (!tokenstr) {
-//     return next('/login')
-//   } else {
-//     next()
-//   }
+  // const tokenstr = window.sessionStorage.getItem('token')
+  // if (!tokenstr) {
+  //   return next('/login')
+  // } else {
+  //   next()
+  // }
   
-// })
+//})
 
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push

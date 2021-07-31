@@ -13,7 +13,7 @@ import 'quill/dist/quill.bubble.css' // for bubble theme
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL='http://172.20.10.3:8080/'
+axios.defaults.baseURL='http://localhost:8080/'
 axios.interceptors.request.use(config=>{
   //为每一个请求加token请求头
   config.headers.Authorization = window.sessionStorage.getItem('token')

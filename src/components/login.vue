@@ -13,10 +13,10 @@
         label-width="0px"
         class="from"
       >
-        <el-form-item prop="username">
+        <el-form-item prop="uid">
           <el-input
-            placeholder="请输入用户名"
-            v-model="loginform.username"
+            placeholder="请输入身份证号码"
+            v-model="loginform.uid"
             prefix-icon="el-icon-user"
           ></el-input>
         </el-form-item>
@@ -26,10 +26,11 @@
             v-model="loginform.password"
             prefix-icon="el-icon-lock"
             type="password"
+            @keyup.enter.native="login"
           ></el-input>
         </el-form-item>
         <el-form-item class="btns">
-          <el-button type="primary" @click="login">登录</el-button>
+          <el-button type="primary" @click="login" >登录</el-button>
           <el-button type="info" @click="resetloginform">重置</el-button>
           <el-button type="success" @click="regist">注册</el-button>
         </el-form-item>
@@ -43,8 +44,8 @@ export default {
   data() {
     return {
       loginform: {
-        username: "",
-        password: "",
+        uid: "admin",
+        password: "admin",
       },
       loginformrules: {
         username: [
@@ -75,26 +76,27 @@ export default {
       this.$refs.loginformref.resetFields();
     },
     login() {
-      
       //表单验证
-      this.$refs.loginformref.validate(async valid=>{
-          //console.log(valid)
-          if(!valid) return;
-          //console.log(this.loginform)
-          //调用接口注册
-          const result=await this.$http.get('login?user='+this.loginform.username+'&password='+this.loginform.password);
-          console.log(result);
-          if(result.data==0) {
-              return this.$message.error("登录失败!")
-          }else{
-              this.$message.success("登录成功!")
-              this.$router.push("/home");
-             // window.sessionStorage.setItem("token",result.data.data.token)
+      this.$router.replace("/home");
+      // this.$refs.loginformref.validate(async valid=>{
 
-              //console.log(result)
-          }
+      //     if(!valid) return;
+          
+      //     const result=await this.$http.get('/l/login?user='+this.loginform.uid+'&password='+this.loginform.password);
+    
+      //     if(result.data==0) {
+      //         return this.$message.error("登录失败!")
+      //     }else{
+              
+      //         window.sessionStorage.setItem("token",result.data.token)
+      //         window.sessionStorage.setItem("uid",this.loginform.uid)
+      //         this.$router.replace("/home");
+      //         return this.$message.success("登录成功!")
+              
 
-      })
+      //     }
+      // })
+            
     },
     regist() {
       this.$router.push("/regist");

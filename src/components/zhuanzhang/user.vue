@@ -110,10 +110,10 @@ export default {
       // const { data: res } = await this.$http.get("users", {
       //   params: this.queryinfo,
       // });
-      if (res.meta.status !== 200)
-        return this.$message.error("获取用户列表失败！");
-      this.userlist = res.data.users;
-      this.total = res.data.total;
+      // if (res.meta.status !== 200)
+      //   return this.$message.error("获取用户列表失败！");
+      // this.userlist = res.data.users;
+      // this.total = res.data.total;
     },
     // 每页显示多少个用户
     handleSizeChange(newsize) {
