@@ -78,24 +78,24 @@ export default {
     login() {
       //表单验证
       this.$router.replace("/home");
-      // this.$refs.loginformref.validate(async valid=>{
+      this.$refs.loginformref.validate(async valid=>{
 
-      //     if(!valid) return;
+          if(!valid) return;
           
-      //     const result=await this.$http.get('/l/login?user='+this.loginform.uid+'&password='+this.loginform.password);
+          const result=await this.$http.get('/l/login?user='+this.loginform.uid+'&password='+this.loginform.password);
     
-      //     if(result.data==0) {
-      //         return this.$message.error("登录失败!")
-      //     }else{
+          if(result.data==0) {
+              return this.$message.error("登录失败!")
+          }else{
               
-      //         window.sessionStorage.setItem("token",result.data.token)
-      //         window.sessionStorage.setItem("uid",this.loginform.uid)
-      //         this.$router.replace("/home");
-      //         return this.$message.success("登录成功!")
+              window.sessionStorage.setItem("token",result.data.token)
+              window.sessionStorage.setItem("uid",this.loginform.uid)
+              this.$router.replace("/home");
+              return this.$message.success("登录成功!")
               
 
-      //     }
-      // })
+          }
+      })
             
     },
     regist() {

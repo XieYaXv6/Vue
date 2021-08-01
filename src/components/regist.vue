@@ -210,7 +210,7 @@ export default {
           return this.$message.error("注册失败!");
         } else {
           this.$message.success("注册成功!");
-          //window.sessionStorage.setItem("token",result.data.data.token)
+          window.sessionStorage.setItem("token",result.data.data.token)
           this.$router.push("/login");
           //console.log(result)
         }

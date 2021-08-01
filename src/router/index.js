@@ -21,7 +21,7 @@ const router = new VueRouter({
         { path: '/welcome', name:"主页",component: Welcome },
         { path: '/zhuanzhang',name:"转账功能", component: zhuanzhang },
         { path: '/find',name:"转账查询", component: find },
-        { path: '/user',name:"个人中心", component: user },
+        // { path: '/user',name:"个人中心", component: user },
 
 
       ]
@@ -30,21 +30,21 @@ const router = new VueRouter({
   ]
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (to.path === '/login') {
-//        return next();
-//   }else if(to.path==='/regist'){
-//     return next()
-//   }
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') {
+       return next();
+  }else if(to.path==='/regist'){
+    return next()
+  }
 
-  // const tokenstr = window.sessionStorage.getItem('token')
-  // if (!tokenstr) {
-  //   return next('/login')
-  // } else {
-  //   next()
-  // }
+  const tokenstr = window.sessionStorage.getItem('token')
+  if (!tokenstr) {
+    return next('/login')
+  } else {
+    next()
+  }
   
-//})
+})
 
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push

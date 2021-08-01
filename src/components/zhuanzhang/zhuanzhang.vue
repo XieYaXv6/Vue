@@ -33,16 +33,16 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="submit">转账</el-button>
+        <el-button type="primary" @click="submit" >转账</el-button>
         <el-button @click="reset">取消</el-button>
       </el-form-item>
     </el-form>
 
-    <el-dialog title="支付密码" :visible.sync="show">
+    <el-dialog title="支付密码" :visible.sync="show" >
       <el-input
         v-model="form.pwd"
         type="password"
-        autocomplete="off"
+       
       ></el-input>
       <div slot="footer" class="dialog-footer">
         <el-button @click="show = false">取 消</el-button>
@@ -53,18 +53,20 @@
 </template>
 
 <script>
+import { Message } from "element-ui";
 export default {
   data() {
     return {
+      res: {},
       show: false,
-      uid: 123,
+      uid: "",
       ciddata: [],
       form: {
         region: "",
         money: 0,
         id: "",
         name: "",
-        pwd:"",
+        pwd: "",
       },
       formrules: {
         money: [
@@ -85,6 +87,7 @@ export default {
   },
   methods: {
     async getcid() {
+      this.uid=window.sessionStorage.getItem('uid')
       const result = await this.$http
         .get("/search?uid=" + this.uid)
         .then((response) => {
@@ -96,37 +99,49 @@ export default {
         if (!valid) {
           return this.$message.error("请填写必要的表单项！");
         }
+
         const result = await this.$http
           .get("/transcheck?cid1=" + this.form.region + "&cid2=" + this.form.id)
           .then((response) => {
-            this.show =!this.show;
-            return this.$message.warn("请输入支付密码")
+            this.res = response;
+            this.show = !this.show;
+            Message.success("请输入支付密码");
           })
           .catch((error) => {
-            this.show=false
-            return this.$message.error("账户异常");
+            Message.error("账户存在异常");
           });
+
       });
     },
     reset() {
       this.$refs.formref.resetFields();
     },
-    async add(){
+    async add() {
       const result = await this.$http
-          .get("/trans?cid="+this.form.region+"&friend="+this.form.id+"&number="+this.form.money+"&uname="+this.form.name+"&pwd="+this.form.pwd)
-          .then((response) => {
-            console.log(response)
-            this.show=!this.show
-
-            return this.$message.success("success");
-          })
-          .catch((error) => {
-            this.show=!this.show
-
-            return this.$message.error("fail"
-            );
-          });
-    }
+        .get(
+          "/trans?cid=" +
+            this.form.region +
+            "&friend=" +
+            this.form.id +
+            "&number=" +
+            this.form.money +
+            "&uname=" +
+            this.form.name +
+            "&pwd=" +
+            this.form.pwd
+        )
+        .then((response) => {
+          console.log(response);
+          this.show = !this.show;
+          return this.$message.success("转账成功！");
+        })
+        .catch((error) => {
+          this.show = !this.show;
+          return this.$message.error("转账失败！");
+        });
+      this.form.pwd=""
+    },
+   
   },
 };
 </script>
